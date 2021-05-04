@@ -9,7 +9,7 @@
         <div class="money row">
             <div class="money-block-1 col">
                 <div class="img-money-block row">
-                    <div class="money-block__img col" :style="{ backgroundPostition: coinPosition[0]}">
+                    <div class="money-block__img position__img-1 col" :style="{ backgroundPosition: coinPosition[0] }">
                         
                     </div>
                 </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="money-block-2 col">
                 <div class="img-money-block row">
-                    <div class="money-block__img col">
+                    <div class="money-block__img col position__img-2" :style="{ backgroundPosition: coinPosition[1] }">
                         
                     </div>
                 </div>
@@ -57,7 +57,7 @@
             </div>
             <div class="money-block-3 col">
                 <div class="img-money-block row">
-                    <div class="money-block__img col">
+                    <div class="money-block__img col position__img-3" :style="{ backgroundPosition: coinPosition[2] }">
                         
                     </div>
                 </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="col show-invest">
                 <a class="show-invest__button" href="https://alfabank.ru/make-money/investments/" target="_blanc">
-                    Узнать 
+                    Узнать {{ colCoin() }}
                 </a>
             </div>
         </div>
@@ -159,7 +159,7 @@
                     this.activePopup[0]= false;
             },
             sumProcent(money) {
-                return (money * 36).toLocaleString('ru');
+                return Math.floor(money * 36);
             },
             sumProcentCapitalized(money) {
                 let sum = 0;
@@ -200,7 +200,7 @@
                     sum = currentProcent + (value * i);
                     currentMonth++;
                 }
-                return (Math.floor(sum)).toLocaleString('ru');
+                return Math.floor(sum);
             },
             sumProcentPif(money) {
                 let sum = 0;
@@ -250,50 +250,40 @@
                     sum = currentProcent + (value * i);
                     currentMonth++;
                 }
-                return (Math.floor(sum)).toLocaleString('ru');
+                return Math.floor(sum);
             },
             colCoin() {
-                let coin_1 =(this.sumProcent(this.maxMoney) / this.sumProcent(this.money)) ,
-                    coin_2 = 10 - (this.sumProcentCapitalized(this.maxMoney) / this.sumProcentCapitalized(this.money) ),
-                    coin_3 = 10 - (this.sumProcentPif(this.maxMoney) / 10);
-
-                // coin_1 = coin_1.toFixed(0);
-                // coin_2 = coin_2.toFixed(0);
-                // coin_3 = coin_3.toFixed(0);
-
-                console.log(coin_1);
-                console.log(coin_2);
+                let coin_1 = this.sumProcent(this.money) / (this.sumProcent(this.maxMoney) / 10),
+                    coin_2 = this.sumProcentCapitalized(this.money) / (this.sumProcentCapitalized(this.maxMoney) / 10),
+                    coin_3 = this.sumProcentPif(this.money) / (this.sumProcentPif(this.maxMoney) / 10);
 
                 let coins = [coin_1, coin_2, coin_3];
                 
                 for (let i = 0; i < coins.length; i++) {
-                    if (coins[i] == 2) {
-                        this.coinPosition[i] = '55% 50%, 45% 50%;';
-                    } else if (coins[i] == 3) {
-                        this.coinPosition[i] = '65% 50% ,55% 50%, 45% 50%;';
-                    } else if (coins[i] == 4) {
-                        this.coinPosition[i] = '65% 50% ,55% 50%, 45% 50%, 35% 50%;';
-                    } else if (coins[i] == 5) {
-                        this.coinPosition[i] = '75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%;';
-                    } else if (coins[i] == 6) {
-                        this.coinPosition[i] = '75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%;';
-                    } else if (coins[i] == 7) {
-                        this.coinPosition[i] = '85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%;';
-                    } else if (coins[i] == 8) {
-                        this.coinPosition[i] = '85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%, 15% 50%;';
-                    } else if (coins[i] == 9) {
-                        this.coinPosition[i] = '95% 50% ,85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%, 15% 50%;';
-                    } else if (coins[i] == 10) {
-                        this.coinPosition[i] = '95% 50% ,85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%, 15% 50%, 5% 50%;';
+                    if (coins[i] >= 2 && coins[i] < 3) {
+                        this.coinPosition[i] = '55% 50%, 45% 50%';
+                    } else if (coins[i] >= 3 && coins[i] < 4) {
+                        this.coinPosition[i] = '65% 50% ,55% 50%, 45% 50%';
+                    } else if (coins[i] >= 4 && coins[i] < 5) {
+                        this.coinPosition[i] = '65% 50% ,55% 50%, 45% 50%, 35% 50%';
+                    } else if (coins[i] >= 5 && coins[i] < 6) {
+                        this.coinPosition[i] = '75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%';
+                    } else if (coins[i] >= 6 && coins[i] < 7) {
+                        this.coinPosition[i] = '75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%';
+                    } else if (coins[i] >= 7 && coins[i] < 8) {
+                        this.coinPosition[i] = '85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%';
+                    } else if (coins[i] >= 8 && coins[i] < 9) {
+                        this.coinPosition[i] = '85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%, 15% 50%';
+                    } else if (coins[i] >= 9 && coins[i] < 10) {
+                        this.coinPosition[i] = '95% 50% ,85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%, 15% 50%';
+                    } else if (coins[i] >= 10) {
+                        this.coinPosition[i] = '95% 50% ,85% 50% ,75% 50% ,65% 50% ,55% 50%, 45% 50%, 35% 50%, 25% 50%, 15% 50%, 5% 50%';
+                    } else {
+                        this.coinPosition[i] = '55% 50%'
                     }
                 }
             }
         },
-        watch: {
-            value: function() {
-                this.colCoin();
-            }
-        }
     }
 </script>
 <style lang="stylus">
@@ -331,7 +321,7 @@
                          url(../assets/Money.svg),
                          url(../assets/Money.svg)
         background-repeat no-repeat
-        background-size contain
+        background-size auto
         background-position 55% 50%
 
     .money-block__sum
